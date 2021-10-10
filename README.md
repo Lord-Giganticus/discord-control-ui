@@ -1,2 +1,2 @@
-# discord-control-ui
+# Discord Control UI
 A application wich helps you make discord bots in LUA
