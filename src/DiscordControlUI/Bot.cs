@@ -22,7 +22,7 @@ namespace ImGui.NET.SampleProgram
         public DiscordClient Client { get; private set; }
         public CommandsNextExtension Commands { get; private set; }
 
-        public List<HookedScriptRunner> commands = new List<HookedScriptRunner>();
+        public LuaCommand[] commands;
 
         HookedScriptRunner events;
 
@@ -30,7 +30,7 @@ namespace ImGui.NET.SampleProgram
 
         void RefreshCommands()
         {
-            commands.Clear();
+            var commands = new List<LuaCommand>();
 
             foreach (var f in Directory.GetFiles($"{botPath}/commands/"))
             {
@@ -49,8 +49,10 @@ namespace ImGui.NET.SampleProgram
 
                 lua.LoadScript(txt);
 
-                commands.Add(lua);
+                commands.Add(new LuaCommand { commandName = lua.Execute("CommandName").String.ToLower(), lua=lua, commandDescription = lua.Execute("CommandDescription").String });
             }
+
+            this.commands = commands.ToArray();
         }
 
         void RefreshEvents()
@@ -121,7 +123,7 @@ namespace ImGui.NET.SampleProgram
                 
                 foreach (var command in commands)
                 {
-                    if (command.Execute("CommandName").String.ToLower() == cmdName.ToLower())
+                    if (command.commandName.ToLower() == cmdName.ToLower())
                     {
                         var context = new Context
                         {
@@ -135,9 +137,9 @@ namespace ImGui.NET.SampleProgram
                             client = Client
                         };
 
-                        Program.AddLog($"User {e.Message.Author.Username} issued command {command.Execute("CommandName").String.ToUpper()}");
+                        Program.AddLog($"User {e.Message.Author.Username} issued command {command.commandName.ToUpper()}");
 
-                        command.Execute("Execute", new object[] { context, args.ToArray() });
+                        command.lua.Execute("Execute", new object[] { context, args.ToArray() });
                     }
                 }
             }
@@ -154,6 +156,12 @@ namespace ImGui.NET.SampleProgram
 
             return Task.CompletedTask;
         }
+    }
+
+    public class LuaCommand
+    {
+        public HookedScriptRunner lua;
+        public string commandName, commandDescription;
     }
 
     public class Context

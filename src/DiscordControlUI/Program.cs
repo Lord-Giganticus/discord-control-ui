@@ -120,7 +120,7 @@ namespace ImGuiNET
             _gd.Dispose();
         }
 
-        static Bot bot = null;
+        public static Bot bot = null;
         static IniFile botCfg = null;
 
         public static BotStatus status;
