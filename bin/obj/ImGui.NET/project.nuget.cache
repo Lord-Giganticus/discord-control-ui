@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "Xn8OmaElRtm7R2yI7eRcf7jvACYQai/r9fgk2+vh38jOsJfznvNmzrEooDHqwmziJkXnoNArsTcjAm2Vxrh1AA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\TBL\\Documents\\GitHub\\discord-control-ui\\src\\ImGui.NET\\ImGui.NET.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\TBL\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\TBL\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\TBL\\.nuget\\packages\\system.buffers\\4.4.0\\system.buffers.4.4.0.nupkg.sha512",
+    "C:\\Users\\TBL\\.nuget\\packages\\system.numerics.vectors\\4.4.0\\system.numerics.vectors.4.4.0.nupkg.sha512",
+    "C:\\Users\\TBL\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.4.0\\system.runtime.compilerservices.unsafe.4.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}
