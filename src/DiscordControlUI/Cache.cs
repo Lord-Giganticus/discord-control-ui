@@ -11,5 +11,11 @@ namespace ImGui.NET.SampleProgram
         public static string botToken = "";
         public static string botPrefix = "";
         public static string botPath = "";
+        public static List<ActivityUIStuff> botActivities = new List<ActivityUIStuff>();
+    }
+
+    public class ActivityUIStuff
+    {
+        public string activity;
     }
 }

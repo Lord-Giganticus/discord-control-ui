@@ -22,6 +22,7 @@ namespace ImGuiNET
 {
     class Program
     {
+        #region Some Stuff that initializes the ui and shit
         [DllImport("User32.dll")]
         public static extern ushort GetAsyncKeyState(int ArrowKeys);
 
@@ -133,9 +134,19 @@ namespace ImGuiNET
 
         static List<string> logs = new List<string>();
 
-        public static void AddLog(string s)
+        #endregion
+
+        #region Creating and loading projects
+
+        static void Refresh()
         {
-            logs.Add($"[{DateTime.Now.ToShortTimeString()}] {s}");
+            System.Console.WriteLine("Refreshing Projects");
+            projects.Clear();
+
+            foreach (var proj in Directory.GetDirectories(Util.Dir("Projects")))
+            {
+                projects.Add(new Project(proj));
+            }
         }
 
         static void CreateProject(string projectName)
@@ -159,12 +170,31 @@ namespace ImGuiNET
             Cache.botPath = projectPath;
             botCfg = new IniFile($"{projectPath}/settings.ini");
 
-            Cache.botToken = botCfg.Read("token","Bot");
-            Cache.botPrefix = botCfg.Read("prefix","Bot");
+            //load stuff
+
+            Cache.botToken = botCfg.Read("token","Bot","TOKEN HERE");
+            Cache.botPrefix = botCfg.Read("prefix","Bot","!");
+            foreach(var act in botCfg.Read("activities", "Bot", "!help for help").Split(';').ToList())
+            {
+                Cache.botActivities.Add(new ActivityUIStuff { activity = act });
+            }
+            curStatusId = int.Parse(botCfg.Read("status_id","Bot","0"));
+            curActivityId = int.Parse(botCfg.Read("activity_id","Bot","0"));
 
             RefreshFileList();
 
             curScreen = Screen.MAIN;
+        }
+
+        #endregion
+
+        #region UI Stuff
+
+        static float delta = 0f;
+
+        public static void AddLog(string s)
+        {
+            logs.Add($"[{DateTime.Now.ToShortTimeString()}] {s}");
         }
 
         static void ShowCreateTextBox()
@@ -187,16 +217,7 @@ namespace ImGuiNET
             ImGui.End();
         }
 
-        static void Refresh()
-        {
-            System.Console.WriteLine("Refreshing Projects");
-            projects.Clear();
-
-            foreach (var proj in Directory.GetDirectories(Util.Dir("Projects")))
-            {
-                projects.Add(new Project(proj));
-            }
-        }
+        
 
         static unsafe void SelectProjectUI()
         {
@@ -240,8 +261,66 @@ namespace ImGuiNET
             ShowCreateTextBox();
         }
 
+        static int curStatusId = 0;
+        static int curActivityId = 0;
+
+        static string[] statuses = new string[] { "Online", "Idle", "Do not Disturb", "Invisible" };
+
+        static void UpdateActivity()
+        {
+            if(bot != null && status == BotStatus.STARTED && Cache.botActivities.Count > 0 && curActivityId >= 0 && curActivityId <= Cache.botActivities.Count-1)
+            {
+                var activity = new DiscordActivity { ActivityType = ActivityType.Playing, Name = Cache.botActivities[curActivityId].activity };
+
+                UserStatus status = UserStatus.Online;
+
+                switch (statuses[curStatusId])
+                {
+                    case "Online":
+                        status = UserStatus.Online;
+                        break;
+                    case "Idle":
+                        status = UserStatus.Idle;
+                        break;
+                    case "Do not Disturb":
+                        status = UserStatus.DoNotDisturb;
+                        break;
+                    case "Invisible":
+                        status = UserStatus.Invisible;
+                        break;
+                    default:
+                        status = UserStatus.Online;
+                        break;
+                }
+                bot.Client.UpdateStatusAsync(activity,status);
+            }
+        }
+        
         static void DrawSettings()
         {
+            if(status == BotStatus.STARTED)
+            {
+                var io = ImGui.GetIO();
+
+                delta += io.DeltaTime;
+
+                if (delta > 4.5f)
+                {
+                    delta = 0;
+
+                    if (curActivityId < Cache.botActivities.Count - 1)
+                    {
+                        curActivityId++;
+                    }
+                    else
+                    {
+                        curActivityId = 0;
+                    }
+
+                    UpdateActivity();
+                }
+            }
+
             ImGui.SetNextWindowPos(new Vector2(505, 4));
             ImGui.SetNextWindowSize(new Vector2(773, 309));
             ImGui.Begin("Settings");
@@ -251,10 +330,54 @@ namespace ImGuiNET
             ImGui.InputText("Bot Token",ref Cache.botToken,5000);
             ImGui.InputText("Bot Prefix",ref Cache.botPrefix,24);
 
+            ImGui.Combo("Status", ref curStatusId,statuses,4);
+
+            ImGui.Text("");
+
+            //Display Activities
+            ImGui.Text("Activities: ");
+            if (ImGui.Button("ADD", new Vector2(100, 30))) {
+                Cache.botActivities.Add(new ActivityUIStuff { activity = "New Activity" });
+            }
+
+            for(int i = 0; i < Cache.botActivities.Count; i++)
+            {
+                ImGui.InputText($"###ActivityStuffID{i}",ref Cache.botActivities[i].activity,256);
+                ImGui.SameLine();
+                if (ImGui.Button("REMOVE"))
+                {
+                    Cache.botActivities.RemoveAt(i);
+                }
+            }
+
+            if(curActivityId >= 0)
+            {
+                string act = Cache.botActivities.Count > 0 && curActivityId <= Cache.botActivities.Count - 1 ? Cache.botActivities[curActivityId].activity : "No Activity";
+
+                ImGui.InputInt($"###ActivityIdStuff", ref curActivityId);
+                ImGui.Text($"Starting Activity Id ({act})");
+            }
+            else
+            {
+                ImGui.InputInt($"###ActivityIdStuff", ref curActivityId);
+                ImGui.Text($"Starting Activity Id (No Activity)");
+            }
+            
+
             if (ImGui.Button("APPLY"))
             {
                 botCfg.Write("token", Cache.botToken,"Bot");
                 botCfg.Write("prefix", Cache.botPrefix, "Bot");
+                botCfg.Write("activity_id", curActivityId.ToString(), "Bot");
+                string statusStuff = "";
+
+                for (int i = 0; i < Cache.botActivities.Count; i++)
+                {
+                    statusStuff += i == Cache.botActivities.Count - 1 ? Cache.botActivities[i].activity : $"{Cache.botActivities[i].activity};";
+                }
+
+                botCfg.Write("activities",statusStuff,"Bot");
+                botCfg.Write("status_id",curStatusId.ToString(),"Bot");
             }
 
             ImGui.End();
@@ -421,6 +544,8 @@ namespace ImGuiNET
                 MainUI();
             }
         }
+
+        #endregion
     }
 
     enum BotStatus
