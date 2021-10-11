@@ -129,7 +129,9 @@ namespace ImGui.NET.SampleProgram
                             guild = e.Message.Channel.Guild,
                             user = e.Message.Author,
                             member = e.Guild.Members[e.Message.Author.Id],
-                            guildCfg = new IniFile($"{Cache.botPath}/guilds/{e.Message.Channel.Guild.Id}/main.ini")
+                            guildCfg = new IniFile($"{Cache.botPath}/guilds/{e.Message.Channel.Guild.Id}/main.ini"),
+                            message = e.Message,
+                            mentionedUsers = e.Message.MentionedUsers.ToArray()
                         };
 
                         Program.AddLog($"User {e.Message.Author.Username} issued command {command.Execute("CommandName").String.ToUpper()}");
@@ -159,6 +161,8 @@ namespace ImGui.NET.SampleProgram
         public DiscordMember member;
         public DiscordGuild guild;
         public DiscordChannel channel;
+        public DiscordMessage message;
+        public DiscordUser[] mentionedUsers;
 
         public IniFile guildCfg;
 

@@ -45,7 +45,6 @@ namespace ImGuiNET
 
             //Get all Types to add in Lua
             //Using MoonSharp and LunarBind
-
             Assembly mscorlib = typeof(DiscordUser).Assembly;
             foreach (Type type in mscorlib.GetTypes())
             {
@@ -59,6 +58,9 @@ namespace ImGuiNET
                 if (type.FullName.Contains("<") || type.FullName.Contains(">")) continue;
                 GlobalScriptBindings.AddGlobalType(type);
             }
+
+            GlobalScriptBindings.AddGlobalType(typeof(Task));
+            GlobalScriptBindings.AddGlobalType(typeof(Task<>));
 
             // Create window, GraphicsDevice, and all resources necessary for the demo.
             VeldridStartup.CreateWindowAndGraphicsDevice(
@@ -284,7 +286,7 @@ namespace ImGuiNET
             //Control
             if (Pressed(0xA2))
             {
-                //Enter
+                //S
                 if (Pressed(0x53))
                 {
                     if (!pressed)
