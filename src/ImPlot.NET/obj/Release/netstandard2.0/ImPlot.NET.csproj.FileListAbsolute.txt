@@ -1,4 +1,0 @@
-C:\Users\TBL\Documents\GitHub\discord-control-ui\src\ImPlot.NET\obj\Release\netstandard2.0\ImPlot.NET.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\TBL\Documents\GitHub\discord-control-ui\src\ImPlot.NET\obj\Release\netstandard2.0\ImPlot.NET.AssemblyInfoInputs.cache
-C:\Users\TBL\Documents\GitHub\discord-control-ui\src\ImPlot.NET\obj\Release\netstandard2.0\ImPlot.NET.AssemblyInfo.cs
-C:\Users\TBL\Documents\GitHub\discord-control-ui\src\ImPlot.NET\obj\Release\netstandard2.0\ImPlot.NET.csproj.CoreCompileInputs.cache
