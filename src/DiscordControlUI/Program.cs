@@ -20,6 +20,21 @@ using static ImGuiNET.ImGuiNative;
 
 namespace ImGuiNET
 {
+    public static class LuaRandom
+    {
+        static Random random;
+
+        public static int Range(int min = 0, int max = 10)
+        {
+            return random.Next(min, max);
+        }
+
+        public static void Start()
+        {
+            random = new Random((int)DateTime.Now.Ticks);
+        }
+    }
+
     class Program
     {
         #region Some Stuff that initializes the ui and shit
@@ -43,6 +58,7 @@ namespace ImGuiNET
         static void Main(string[] args)
         {
             Refresh();
+            LuaRandom.Start();
 
             //Get all Types to add in Lua
             //Using MoonSharp and LunarBind
