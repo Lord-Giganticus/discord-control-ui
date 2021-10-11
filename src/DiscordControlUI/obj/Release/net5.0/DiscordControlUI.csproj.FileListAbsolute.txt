@@ -1,0 +1,6 @@
+C:\Users\TBL\Documents\GitHub\discord-control-ui\src\DiscordControlUI\obj\Release\net5.0\DiscordControlUI.csproj.AssemblyReference.cache
+C:\Users\TBL\Documents\GitHub\discord-control-ui\src\DiscordControlUI\obj\Release\net5.0\DiscordControlUI.csproj.ResolveComReference.cache
+C:\Users\TBL\Documents\GitHub\discord-control-ui\src\DiscordControlUI\obj\Release\net5.0\DiscordControlUI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\TBL\Documents\GitHub\discord-control-ui\src\DiscordControlUI\obj\Release\net5.0\DiscordControlUI.AssemblyInfoInputs.cache
+C:\Users\TBL\Documents\GitHub\discord-control-ui\src\DiscordControlUI\obj\Release\net5.0\DiscordControlUI.AssemblyInfo.cs
+C:\Users\TBL\Documents\GitHub\discord-control-ui\src\DiscordControlUI\obj\Release\net5.0\DiscordControlUI.csproj.CoreCompileInputs.cache

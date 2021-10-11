@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "g9MBSu8lcWfsxHX2YakN/0rCeVYSu2rg+sOtnFC8kK39v/CefxSnENMume9CjYkpOE88NVgdhlZQX2VqZdK7ag==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\TBL\\Documents\\GitHub\\discord-control-ui\\src\\ImPlot.NET\\ImPlot.NET.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\TBL\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\TBL\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\TBL\\.nuget\\packages\\system.buffers\\4.4.0\\system.buffers.4.4.0.nupkg.sha512",
+    "C:\\Users\\TBL\\.nuget\\packages\\system.numerics.vectors\\4.4.0\\system.numerics.vectors.4.4.0.nupkg.sha512",
+    "C:\\Users\\TBL\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.4.0\\system.runtime.compilerservices.unsafe.4.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}

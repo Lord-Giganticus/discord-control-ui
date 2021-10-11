@@ -1,0 +1,5 @@
+C:\Users\TBL\Documents\GitHub\discord-control-ui\src\ImGui.NET\obj\Release\netstandard2.0\ImGui.NET.csproj.AssemblyReference.cache
+C:\Users\TBL\Documents\GitHub\discord-control-ui\src\ImGui.NET\obj\Release\netstandard2.0\ImGui.NET.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\TBL\Documents\GitHub\discord-control-ui\src\ImGui.NET\obj\Release\netstandard2.0\ImGui.NET.AssemblyInfoInputs.cache
+C:\Users\TBL\Documents\GitHub\discord-control-ui\src\ImGui.NET\obj\Release\netstandard2.0\ImGui.NET.AssemblyInfo.cs
+C:\Users\TBL\Documents\GitHub\discord-control-ui\src\ImGui.NET\obj\Release\netstandard2.0\ImGui.NET.csproj.CoreCompileInputs.cache
