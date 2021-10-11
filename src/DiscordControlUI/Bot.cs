@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -131,7 +131,8 @@ namespace ImGui.NET.SampleProgram
                             member = e.Guild.Members[e.Message.Author.Id],
                             guildCfg = new IniFile($"{Cache.botPath}/guilds/{e.Message.Channel.Guild.Id}/main.ini"),
                             message = e.Message,
-                            mentionedUsers = e.Message.MentionedUsers.ToArray()
+                            mentionedUsers = e.Message.MentionedUsers.ToArray(),
+                            client = Client
                         };
 
                         Program.AddLog($"User {e.Message.Author.Username} issued command {command.Execute("CommandName").String.ToUpper()}");
@@ -163,6 +164,7 @@ namespace ImGui.NET.SampleProgram
         public DiscordChannel channel;
         public DiscordMessage message;
         public DiscordUser[] mentionedUsers;
+        public DiscordClient client;
 
         public IniFile guildCfg;
 
