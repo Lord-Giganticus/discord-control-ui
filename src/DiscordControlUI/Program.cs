@@ -29,10 +29,7 @@ namespace ImGuiNET
             return random.Next(min, max);
         }
 
-        public static void Start()
-        {
-            random = new Random((int)DateTime.Now.Ticks);
-        }
+        static LuaRandom() => random = new Random((int)DateTime.Now.Ticks);
     }
 
     class Program
@@ -58,7 +55,6 @@ namespace ImGuiNET
         static void Main(string[] args)
         {
             Refresh();
-            LuaRandom.Start();
 
             //Get all Types to add in Lua
             //Using MoonSharp and LunarBind
@@ -158,7 +154,7 @@ namespace ImGuiNET
         {
             System.Console.WriteLine("Refreshing Projects");
             projects.Clear();
-
+            Directory.CreateDirectory($"{Directory.GetCurrentDirectory()}\\Projects");
             foreach (var proj in Directory.GetDirectories(Util.Dir("Projects")))
             {
                 projects.Add(new Project(proj));
