@@ -1,0 +1,38 @@
+name: .NET
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - uses: microsoft/setup-msbuild@v1.0.3
+    - shell: cmd
+      run : |
+        push ${{ github.workspace }}
+        cd src
+        nuget sources Add -Name "DSharp" -Source https://nuget.emzi0767.com/api/v3/index.json
+        nuget restore
+        msbuild /p:Configuration=Release
+        popd
+        pushd %CD%
+        cd bin\Release\DiscordControlUI\net5.0
+        7z a "${{ github.workspace }}\DiscordControlUI.zip" *.* -r
+        popd
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "Auto"
+        prerelease: false
+        title: "Auto Build"
+        files: |
+          *.zip
